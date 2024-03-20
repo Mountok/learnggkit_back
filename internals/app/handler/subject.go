@@ -36,24 +36,22 @@ func (handler *SubjectHandler) One(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	data, err := handler.processor.SubjectById(vars["id"])
 	if err != nil {
-		WrapError(w,err)
+		WrapError(w, err)
 	}
-	var m = map[string]interface{} {
+	var m = map[string]interface{}{
 		"result": "OK",
-		"data": data,
+		"data":   data,
 	}
 	WrapOK(w, m)
 
 }
-
-
 
 func (handler *SubjectHandler) Image(w http.ResponseWriter, r *http.Request) {
 	queryParams := r.URL.Query()
 	imageName := queryParams.Get("id")
 	if imageName != "" {
 		imagePath := "./images/" + imageName
-		WrapOKImage(w,imagePath)
+		WrapOKImage(w, imagePath)
 	}
-	WrapError(w,errors.New("Имя изображения не указано"))
+	WrapError(w, errors.New("Имя изображения не указано"))
 }

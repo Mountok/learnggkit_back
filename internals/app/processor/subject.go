@@ -23,10 +23,10 @@ func (process *SubjectProcessor) SubjectsList() ([]models.Subject, error) {
 func (process *SubjectProcessor) SubjectById(id string) ([]models.Subject, error) {
 	num, err := strconv.Atoi(id)
 	if err != nil {
-		return []models.Subject{}, fmt.Errorf("uncorrect id - (%d) is not integer",id)
+		return []models.Subject{}, fmt.Errorf("uncorrect id - (%s) is not integer", id)
 	}
 	if num <= 0 {
-		return []models.Subject{}, fmt.Errorf("uncorrect id (%d)",id)
+		return []models.Subject{}, fmt.Errorf("uncorrect id (%s)", id)
 	}
 	return process.storage.GetSubjectById(num), nil
 }

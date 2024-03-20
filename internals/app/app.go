@@ -50,17 +50,21 @@ func (server *AppServer) Serve() {
 	lessonsProcess := processor.NewLessonsProcessor(lessonsStorage)
 	lessonsHandler := handler.NewLessonsHanler(lessonsProcess)
 
+	loginStorage := db.NewLoginStorage(server.db)
+	loginProcess := processor.NewLoginProcessor(loginStorage)
+	loginHandler := handler.NewLoginhandler(loginProcess)
+
 	routes := api.CreateRoute(
 		subjectHandler,
 		themeHandler,
 		lessonsHandler,
+		loginHandler,
 	)
 
 	corsSettings := CarsSettings()
 
 	handler := corsSettings.Handler(routes)
-
-
+	
 	server.serv = &http.Server{
 		Addr:    ":" + server.config.Port,
 		Handler: handler,
@@ -75,8 +79,6 @@ func (server *AppServer) Serve() {
 	}
 
 	return
-
-
 }
 
 func (server *AppServer) Shutdown() {

@@ -8,17 +8,18 @@ import (
 
 func CarsSettings() *cors.Cors {
 	c := cors.New(cors.Options{
-		AllowedMethods:     []string{
+		AllowedMethods: []string{
 			http.MethodGet,
+			http.MethodPost,
 		},
-		AllowedOrigins:     []string{
+		AllowedOrigins: []string{
 			"http://localhost:5173",
 		},
 		AllowCredentials:   true,
 		AllowedHeaders:     []string{},
 		OptionsPassthrough: true,
 		ExposedHeaders:     []string{},
-		Debug:              true,
+		Debug:              false,
 	})
 	return c
 }
