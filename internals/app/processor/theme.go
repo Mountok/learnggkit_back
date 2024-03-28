@@ -7,7 +7,6 @@ import (
 	"strconv"
 )
 
-
 type ThemesProcessor struct {
 	storage *db.ThemesStorage
 }
@@ -18,10 +17,10 @@ func NewThemesProcessor(storage *db.ThemesStorage) *ThemesProcessor {
 	return processor
 }
 
-func (process *ThemesProcessor) ThemesBySubjectId(req_vars map[string]string) ([]models.Theme,error) {
+func (process *ThemesProcessor) ThemesBySubjectId(req_vars map[string]string) ([]models.Theme, error) {
 	num, err := strconv.Atoi(req_vars["subject_id"])
 	if err != nil {
-		return []models.Theme{} ,fmt.Errorf("error: %s",err.Error())
+		return []models.Theme{}, fmt.Errorf("error: %s", err.Error())
 	}
 	return process.storage.GetThemesBySubjectId(num), nil
 

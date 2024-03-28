@@ -21,7 +21,7 @@ func NewThemesStorage(databasePool *pgxpool.Pool) *ThemesStorage {
 
 func (db *ThemesStorage) GetThemesBySubjectId(id int) (result []models.Theme) {
 	query := "SELECT id, title, description, subject_id FROM themes WHERE subject_id = $1"
-	err := pgxscan.Select(context.Background(),db.databasePool,&result,query,id)
+	err := pgxscan.Select(context.Background(), db.databasePool, &result, query, id)
 	if err != nil {
 		log.Fatalln(err)
 	}

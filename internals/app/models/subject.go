@@ -6,4 +6,3 @@ type Subject struct {
 	Image       string `json:"image"`
 	Description string `json:"description"`
 }
-

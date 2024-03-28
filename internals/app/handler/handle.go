@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 )
+
 func WrapError(w http.ResponseWriter, err error) {
 	WrapErrorWithStatus(w, err, http.StatusBadRequest)
 }
@@ -28,20 +29,16 @@ func WrapErrorWithStatus(w http.ResponseWriter, err error, httpStatus int) {
 func WrapOK(w http.ResponseWriter, m map[string]interface{}) {
 	res, _ := json.Marshal(m)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	// w.Header().Set("Access-Control-Allow-Headers", "Origin")
 
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintln(w,string(res))
+	fmt.Fprintln(w, string(res))
 }
 func WrapOKImage(w http.ResponseWriter, m string) {
 	fileBytes, err := os.ReadFile(m)
 	if err != nil {
-		WrapError(w,fmt.Errorf("файл не найден"))
+		WrapError(w, fmt.Errorf("файл не найден"))
 	}
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/octet-stream")
-	// w.Header().Set("Access-Control-Allow-Headers", "Origin")
 	w.Write(fileBytes)
 }
-
-
