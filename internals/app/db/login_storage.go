@@ -24,7 +24,11 @@ func (db *LoginStorage) CreateUser(user models.User) error {
 	_, err := db.GetUserByEmail(user)
 	if err == nil {
 		log.Println("Такой пользователь уже есть")
+<<<<<<< HEAD
 		return errors.New("пользователь с таким email существует")
+=======
+		return errors.New("пользователь существует")
+>>>>>>> c6af19ef1cbcddbba79ffd568ff802eaac1ffd57
 	}
 	query := "INSERT INTO users (email, password, create_date) values ($1,$2,$3);"
 	_, err = db.databasePool.Exec(context.Background(), query, user.Email, user.Password, user.CreateDate)
