@@ -20,11 +20,11 @@ func LoadConfig() Cfg {
 	v := viper.New()
 	v.SetEnvPrefix("GGKIT_SERV")
 	v.Set("PORT", "8080")
-	v.Set("DBNAME", "learn_ggkit_db")
+	v.Set("DBNAME", "ggkit_learn_db")
 	v.Set("DBUSER", "postgres")
 	v.Set("DBPASS", "root")
 	v.Set("DBHOST", "")
-	v.Set("DBPORT", "5432")
+	v.Set("DBPORT", "5433")
 	v.AutomaticEnv()
 
 	var cfg Cfg
