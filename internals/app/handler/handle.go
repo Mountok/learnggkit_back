@@ -19,7 +19,6 @@ func WrapErrorWithStatus(w http.ResponseWriter, err error, httpStatus int) {
 
 	res, _ := json.Marshal(m)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	// w.Header().Set("Access-Control-Allow-Headers", "Origin")
 
 	w.Header().Set("X-Content-Type-Options", "nosniff") //даем понять что ответ приходит в формате json
 	w.WriteHeader(httpStatus)
@@ -29,7 +28,7 @@ func WrapErrorWithStatus(w http.ResponseWriter, err error, httpStatus int) {
 func WrapOK(w http.ResponseWriter, m map[string]interface{}) {
 	res, _ := json.Marshal(m)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-
+	
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintln(w, string(res))
 }
@@ -40,5 +39,6 @@ func WrapOKImage(w http.ResponseWriter, m string) {
 	}
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/octet-stream")
+
 	w.Write(fileBytes)
 }

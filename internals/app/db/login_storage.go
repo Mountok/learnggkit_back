@@ -20,24 +20,24 @@ func NewLoginStorage(databasePool *pgxpool.Pool) *LoginStorage {
 	return storage
 }
 
-func (db *LoginStorage) CreateUser(user models.User) error {
+func (db *LoginStorage) CreateUser(user models.User) (error,int) {
 	_, err := db.GetUserByEmail(user)
 	if err == nil {
 		log.Println("Такой пользователь уже есть")
-		return errors.New("пользователь с таким email существует")
+		return errors.New("пользователь с таким email существует"), 0
 	}
 	query := "INSERT INTO users (email, password, create_date) values ($1,$2,$3);"
 	_, err = db.databasePool.Exec(context.Background(), query, user.Email, user.Password, user.CreateDate)
 	if err != nil {
 		log.Println("Ошибка sql запроса")
-		return err
+		return err, 0
 	}
 	log.Println("Пользователь создан")
-	err = db.CreateProfileForUser(user)
+	err, user_id := db.CreateProfileForUser(user)
 	if err != nil {
-		return err
+		return err, 0
 	}
-	return nil
+	return nil, user_id
 }
 
 func (db *LoginStorage) GetUserByEmail(user models.User) (res []models.User, err error) {
@@ -56,20 +56,20 @@ func (db *LoginStorage) GetUserByEmail(user models.User) (res []models.User, err
 }
 
 
-func (db *LoginStorage) CreateProfileForUser(user models.User) error {
+func (db *LoginStorage) CreateProfileForUser(user models.User) (error, int) {
 	query := "insert into profiles (user_id,description,phone,full_name, image) values ($1,$2,$3,$4,$5);"
 	log.Println("Получение пользователя по почте")
 	currentUser,err := db.GetUserByEmail(user)
 	if err != nil {
-		return err
+		return err, 0
 	}
 	log.Println("Создание профиля для пользователя")
 	_, err = db.databasePool.Exec(context.Background(),query,currentUser[0].Id,"-","-","-","admin.png")
 	if err != nil {
-		return err
+		return err, 0
 	}
 	log.Println("Профиль создан")
-	return nil
+	return nil, currentUser[0].Id
 }
 
 // фунуция для получения профиля по id пользователя

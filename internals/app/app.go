@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/handlers"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -61,13 +62,13 @@ func (server *AppServer) Serve() {
 		loginHandler,
 	)
 
-	corsSettings := CarsSettings()
-
-	handler := corsSettings.Handler(routes)
-	
 	server.serv = &http.Server{
-		Addr:    ":" + server.config.Port,
-		Handler: handler,
+		Addr: ":" + server.config.Port,
+		Handler: handlers.CORS(
+			handlers.AllowedOrigins([]string{"*"}),
+			handlers.AllowedMethods([]string{"GET","POST"}),
+			handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+		)(routes),
 	}
 
 	log.Println("server started")

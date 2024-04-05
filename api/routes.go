@@ -23,7 +23,7 @@ func CreateRoute(
 	router.HandleFunc("/api/lessons/{subject_id}/{theme_id}", lessonsHandler.Lesson).Methods(http.MethodGet)
 
 	router.HandleFunc("/api/reg", loginHandler.Create).Methods(http.MethodPost)
-	router.HandleFunc("/api/auth", loginHandler.Auth).Methods(http.MethodGet)
+	router.HandleFunc("/api/auth", loginHandler.Auth).Methods(http.MethodPost)
 
 	router.HandleFunc("/images", subjectHandler.Image).Methods(http.MethodGet)
 

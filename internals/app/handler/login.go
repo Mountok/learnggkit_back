@@ -24,12 +24,13 @@ func (handler *LoginHandler) Create(w http.ResponseWriter, r *http.Request) {
 		WrapError(w, err)
 	}
 
-	err = handler.process.CreateUser(user)
+	err, user_id := handler.process.CreateUser(user)
 	if err != nil {
 		WrapError(w, err)
 	}
 	var m = map[string]interface{}{
 		"result": "ok",
+		"data": user_id,
 	}
 	WrapOK(w, m)
 }
@@ -42,7 +43,7 @@ func (handler *LoginHandler) Auth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = handler.process.Auth(user)
+	err, user_id := handler.process.Auth(user)
 	if err != nil {
 		WrapError(w, err)
 		return
@@ -50,6 +51,7 @@ func (handler *LoginHandler) Auth(w http.ResponseWriter, r *http.Request) {
 
 	var m = map[string]interface{}{
 		"result": "OK",
+		"data": user_id,
 	}
 	WrapOK(w, m)
 }
