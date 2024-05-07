@@ -39,6 +39,5 @@ func WrapOKImage(w http.ResponseWriter, m string) {
 	}
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/octet-stream")
-
 	w.Write(fileBytes)
 }

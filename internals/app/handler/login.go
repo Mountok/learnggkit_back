@@ -5,6 +5,8 @@ import (
 	"ggkit_learn_service/internals/app/models"
 	"ggkit_learn_service/internals/app/processor"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type LoginHandler struct {
@@ -54,4 +56,23 @@ func (handler *LoginHandler) Auth(w http.ResponseWriter, r *http.Request) {
 		"data": user_id,
 	}
 	WrapOK(w, m)
+}
+
+
+func (handler *LoginHandler) Profile(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userID := vars["user_id"]
+
+	err, data := handler.process.GetProfileByUserId(userID)
+	if err != nil {
+		WrapError(w,err)
+		return
+	}
+
+	m := map[string]interface{}{
+		"result": "ok",
+		"data": data,
+	}
+
+	WrapOK(w,m)
 }

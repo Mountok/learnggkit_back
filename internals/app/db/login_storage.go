@@ -20,7 +20,7 @@ func NewLoginStorage(databasePool *pgxpool.Pool) *LoginStorage {
 	return storage
 }
 
-func (db *LoginStorage) CreateUser(user models.User) (error,int) {
+func (db *LoginStorage) CreateUser(user models.User) (error, int) {
 	_, err := db.GetUserByEmail(user)
 	if err == nil {
 		log.Println("Такой пользователь уже есть")
@@ -55,16 +55,15 @@ func (db *LoginStorage) GetUserByEmail(user models.User) (res []models.User, err
 	return res, nil
 }
 
-
 func (db *LoginStorage) CreateProfileForUser(user models.User) (error, int) {
 	query := "insert into profiles (user_id,description,phone,full_name, image) values ($1,$2,$3,$4,$5);"
 	log.Println("Получение пользователя по почте")
-	currentUser,err := db.GetUserByEmail(user)
+	currentUser, err := db.GetUserByEmail(user)
 	if err != nil {
 		return err, 0
 	}
 	log.Println("Создание профиля для пользователя")
-	_, err = db.databasePool.Exec(context.Background(),query,currentUser[0].Id,"-","-","-","admin.png")
+	_, err = db.databasePool.Exec(context.Background(), query, currentUser[0].Id, "-", "-", "-", "admin.png")
 	if err != nil {
 		return err, 0
 	}
@@ -73,3 +72,20 @@ func (db *LoginStorage) CreateProfileForUser(user models.User) (error, int) {
 }
 
 // фунуция для получения профиля по id пользователя
+func (db *LoginStorage) GetProfileById(user_id int) (err error,profile []models.Profile) {
+	query := "SELECT id,user_id,description,phone,full_name,image,score FROM profiles WHERE user_id = $1"
+	err = pgxscan.Select(context.Background(),db.databasePool,&profile,query,user_id)
+	if err != nil {
+		return err, []models.Profile{}
+	}
+	return err, profile
+
+}
+
+// id serial primary key,
+// 	user_id integer not null,
+// 	description varchar(125) not null,
+// 	phone varchar(100) not null,
+// 	full_name varchar(125) not null,
+// 	image text not null,
+// 	score integer not null default 0,

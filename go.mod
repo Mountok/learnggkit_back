@@ -4,9 +4,9 @@ go 1.21.6
 
 require (
 	github.com/georgysavva/scany v1.2.1
+	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/jackc/pgx/v4 v4.18.1
-	github.com/rs/cors v1.10.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.18.2
 	golang.org/x/crypto v0.21.0
@@ -16,7 +16,6 @@ require (
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
-	github.com/gorilla/handlers v1.5.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.14.0 // indirect

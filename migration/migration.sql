@@ -93,3 +93,14 @@ select * from profiles;
 
 insert into profiles (user_id,description,phone,full_name, image) 
 values (1,'Пользователь','-','-','admin.png');
+
+create table tests (
+	id serial PRIMARY KEY,
+	subject_id int not null,
+	question text not null,
+	variants text not null
+	answer int not null,
+	foreign key (subject_id) REFERENCES subjects(id)
+)
+
+

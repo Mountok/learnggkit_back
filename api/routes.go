@@ -25,6 +25,8 @@ func CreateRoute(
 	router.HandleFunc("/api/reg", loginHandler.Create).Methods(http.MethodPost)
 	router.HandleFunc("/api/auth", loginHandler.Auth).Methods(http.MethodPost)
 
+	router.HandleFunc("/api/profile/{user_id}", loginHandler.Profile).Methods(http.MethodGet)
+
 	router.HandleFunc("/images", subjectHandler.Image).Methods(http.MethodGet)
 
 	return router

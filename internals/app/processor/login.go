@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"ggkit_learn_service/internals/app/db"
 	"ggkit_learn_service/internals/app/models"
+	"strconv"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -51,4 +52,13 @@ func (processor *LoginProcessor) Auth(user models.User) (error,int) {
 	log.Println("Пароль верный")
 	log.Println(findUser)
 	return nil, findUser[0].Id
+}
+
+
+func (processor *LoginProcessor) GetProfileByUserId(userid string) (error,[]models.Profile) {
+	id, err := strconv.Atoi(userid);
+	if err != nil {
+		return err, []models.Profile{}
+	}
+	return processor.storage.GetProfileById(id)
 }
