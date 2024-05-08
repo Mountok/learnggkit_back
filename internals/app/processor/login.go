@@ -62,3 +62,4 @@ func (processor *LoginProcessor) GetProfileByUserId(userid string) (error,[]mode
 	}
 	return processor.storage.GetProfileById(id)
 }
+

@@ -54,12 +54,17 @@ func (server *AppServer) Serve() {
 	loginStorage := db.NewLoginStorage(server.db)
 	loginProcess := processor.NewLoginProcessor(loginStorage)
 	loginHandler := handler.NewLoginhandler(loginProcess)
+	
+	userStorage := db.NewUserStorage(server.db)
+	userProcess := processor.NewUserProcessor(userStorage)
+	userHandler := handler.NewUserHandler(userProcess)
 
 	routes := api.CreateRoute(
 		subjectHandler,
 		themeHandler,
 		lessonsHandler,
 		loginHandler,
+		userHandler,
 	)
 
 	server.serv = &http.Server{

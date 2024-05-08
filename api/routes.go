@@ -12,6 +12,7 @@ func CreateRoute(
 	themeHandler *handler.ThemesHandler,
 	lessonsHandler *handler.LessonsHandler,
 	loginHandler *handler.LoginHandler,
+	userHandler *handler.UserHandler,
 ) *mux.Router {
 	router := mux.NewRouter()
 
@@ -26,6 +27,10 @@ func CreateRoute(
 	router.HandleFunc("/api/auth", loginHandler.Auth).Methods(http.MethodPost)
 
 	router.HandleFunc("/api/profile/{user_id}", loginHandler.Profile).Methods(http.MethodGet)
+
+	router.HandleFunc("/api/profile/name/{user_id}/{new_name}", userHandler.ChangeName).Methods(http.MethodPost)
+
+
 
 	router.HandleFunc("/images", subjectHandler.Image).Methods(http.MethodGet)
 
